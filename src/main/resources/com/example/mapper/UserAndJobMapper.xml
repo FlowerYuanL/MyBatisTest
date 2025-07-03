@@ -1,0 +1,39 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<!-- 
+  mapper 根标签：
+  - namespace（必需）：绑定 Mapper 接口的全限定名（包名+接口名）
+  - 作用：建立 XML 文件与 Java 接口的关联[1,6,8](@ref)
+-->
+<mapper namespace="com.example.mapper.UserAndJobMapper">
+    
+    <resultMap id="UserWithJobMap" type="com.example.pojo.User">
+        <!--User字段-->
+        <id property="id" column="u_id"/>
+        <result property="userName" column="u_userName"/>
+        <result property="email" column="u_email"/>
+        <result property="password" column="u_password"/>
+        <result property="del" column="u_del"/>
+        
+        <!--嵌套对象Job字段-->
+        <association property="job" javaType="com.example.pojo.Job">
+            <id property="jobId" column="j_jobId"/>
+            <result property="userName" column="j_userName"/>
+            <result property="jobName" column="j_jobName"/>
+            <result property="del" column="j_del"/>
+        </association>
+    </resultMap>
+        
+    <select id="findAll" resultMap="UserWithJobMap">
+        select u.id u_id,
+               u.user_name as u_userName,
+               j.job_name as j_jobName,
+               u.email as u_email,
+               u.password as u_password,
+               u.del as u_del
+        from users u left join job j on u.user_name=j.user_name
+    </select>
+</mapper>
