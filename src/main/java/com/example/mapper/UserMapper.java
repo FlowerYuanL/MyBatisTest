@@ -15,5 +15,5 @@ public interface UserMapper {
 
     List<User> findAll();
 
-    void insert(User user);
+    void addUser(User user);
 }

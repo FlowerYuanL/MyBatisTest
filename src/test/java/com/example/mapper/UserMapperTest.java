@@ -64,14 +64,16 @@ public class UserMapperTest{
     }
 
     @Test
-    public void insert() {
+    public void testAddUser() {
         User user = User.builder()
-                .userName("lsxp")
+                .userName("张三")
                 .email("lsxp311@gmail.com")
                 .password(8528)
                 .build();
-        userMapper.insert(user);
+        System.out.println("插入之前的id数据："+user.getId());
+        userMapper.addUser(user);
         sqlSession.commit();
+        System.out.println("插入之前的id数据："+user.getId());
         System.out.println("Insert Success!");
     }
 }

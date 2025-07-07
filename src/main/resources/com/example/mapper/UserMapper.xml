@@ -40,11 +40,47 @@
         select*from users
     </select>
 
-    <insert id="insert" parameterType="com.example.pojo.User" useGeneratedKeys="true" keyProperty="id">
+    <!--方法一-->
+<!--    <insert id="addUser" parameterType="User"
+            &lt;!&ndash;主键回写，插入数据后的主键值会回写到类中&ndash;&gt;
+            useGeneratedKeys="true"
+            keyProperty="id">
+        insert into users (user_name,email,password, del)
+        values(
+                 #{userName},#{email},#{password},#{del}
+                )
+    </insert>-->
+
+
+    <!--方法二-->
+    <!--
+    keyProperty：表示返回的值会赋给Java中类的某一个属性的名称
+    resultType：表示返回值的类型
+    order：表示该执行的位于insert语句的先后
+    SELECT LAST_INSERT_ID()：表示获取新生成的Id值
+    -->
+    <insert id="addUser" parameterType="User">
+        <selectKey keyProperty="id" resultType="Integer" order="AFTER">
+            SELECT LAST_INSERT_ID()
+        </selectKey>
         insert into users (user_name,email,password, del)
         values(
                  #{userName},#{email},#{password},#{del}
                 )
     </insert>
+
+    <!--方法三：（针对不支持主键自增的数据库）-->
+    <!--
+    这种方法就是在执行SQL语句之前生成一个随机数作为数据的主键值。
+    -->
+<!--    <insert id="addUser" parameterType="User">
+        <selectKey keyProperty="id" resultType="Integer" order="BEFORE">
+            SELECT FLOOR(RAND()*1000+1)
+        </selectKey>
+        insert into users (id,user_name,email,password, del)
+        values(
+        #{id},#{userName},#{email},#{password},#{del}
+        )
+    </insert>-->
 
 </mapper>
