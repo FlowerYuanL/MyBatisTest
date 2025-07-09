@@ -15,5 +15,11 @@ public interface UserMapper {
 
     List<User> findAll();
 
-    void addUser(User user);
+    /*void addUser(User user);*/
+
+    int addUser(User user);
+
+    void simpleDelete(int id);
+
+/*    void dynamicSelect(int id);*/
 }

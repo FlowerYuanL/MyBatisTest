@@ -36,9 +36,9 @@
         update users set del = 1 where id = #{id}
     </update>
 
-    <select id="findAll" resultType="User">
+<!--    <select id="findAll" resultType="User">
         select*from users
-    </select>
+    </select>-->
 
     <!--方法一-->
 <!--    <insert id="addUser" parameterType="User"
@@ -83,4 +83,24 @@
         )
     </insert>-->
 
+    <delete id="simpleDelete" parameterType="int">
+        delete from users where id = #{id}
+    </delete>
+
+    <!--id:表示sql封装内容地标识符，可以通过include标签中的 refid标签引用-->
+    <!-- ${xxxx}: 指代将要传入的参数的名称，可以通过property标签引入内容 -->
+    <sql id="users">users</sql>
+    <sql id="tables">
+        from <include refid="${include_target}"></include>
+    </sql>
+    <sql id="columns">
+        id,user_name,email,password,del
+    </sql>
+    <select id="findAll" resultType="user">
+        select
+            <include refid="columns"/>
+            <include refid="tables">
+                <property name="include_target" value="users"/>
+            </include>
+    </select>
 </mapper>

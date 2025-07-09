@@ -46,6 +46,14 @@ public class UserMapperTest{
         System.out.println("The sum of users is "+sum_of_users);
     }
 
+    @Test
+    public void testFindAll() {
+        List<User> users = userMapper.findAll();
+        for (User user : users) {
+            System.out.println(user.toString());
+        }
+    }
+
     /*
     * 删除用户信息
     * 实现：del设置为1
@@ -71,9 +79,21 @@ public class UserMapperTest{
                 .password(8528)
                 .build();
         System.out.println("插入之前的id数据："+user.getId());
-        userMapper.addUser(user);
+        int changed_lines = userMapper.addUser(user);
         sqlSession.commit();
-        System.out.println("插入之前的id数据："+user.getId());
+        System.out.println("受影响的行的数量为："+changed_lines);
+        System.out.println("插入之后的id数据："+user.getId());
         System.out.println("Insert Success!");
+    }
+
+    @Test
+    public void testSimpleDelete(){
+        int id = 389;
+        userMapper.simpleDelete(id);
+        sqlSession.commit();
+        List<User> users = userMapper.findAll();
+        for(User user : users){
+            System.out.println(user.toString());
+        }
     }
 }

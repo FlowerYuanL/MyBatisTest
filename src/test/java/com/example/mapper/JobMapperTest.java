@@ -32,9 +32,20 @@ public class JobMapperTest {
         System.out.println(job);
     }
 
+    @Test
+    public void testUpdateJobById() {
+        int jobId = 1;
+        String jobName = "teacher";
+        Job originJob = jobMapper.findById(jobId);
+        System.out.println("Origin job of " + originJob.getUserName()+":"+originJob.getJobName());
+        jobMapper.updateJobById(jobId, jobName);
+        sqlSession.commit();
+        Job finalJob = jobMapper.findById(jobId);
+        System.out.println("Final job of " + finalJob.getUserName()+":"+finalJob.getJobName());
+    }
+
     @After
     public void tearDown() {
-        sqlSession.commit();
         sqlSession.close();
     }
 }

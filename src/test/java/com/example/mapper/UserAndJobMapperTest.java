@@ -40,7 +40,7 @@ public class UserAndJobMapperTest {
     @Test
     public void findAll() {
         List<User> userAndJob = userAndJobMapper.findAll();
-
+        System.out.println(userAndJob);
         for (User user : userAndJob) {
             if (!user.isDel()){
                 System.out.println("用户ID: " + user.getId());

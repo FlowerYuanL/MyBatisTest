@@ -12,28 +12,30 @@
     
     <resultMap id="UserWithJobMap" type="com.example.pojo.User">
         <!--User字段-->
+        <!--id指代主键，result指代其他键-->
+        <!--注意：此处地字段名称应为sql语句中的“别名”-->
         <id property="id" column="u_id"/>
         <result property="userName" column="u_userName"/>
         <result property="email" column="u_email"/>
         <result property="password" column="u_password"/>
         <result property="del" column="u_del"/>
-        
+        <!--使用association元素来表示在User类中嵌套的Job类，同时用来满足嵌套查询-->
         <!--嵌套对象Job字段-->
         <association property="job" javaType="com.example.pojo.Job">
-            <id property="jobId" column="j_jobId"/>
-            <result property="userName" column="j_userName"/>
-            <result property="jobName" column="j_jobName"/>
+            <id property="jobId" column="jobId"/>
+            <result property="userName" column="j_userNname"/>
+            <result property="jobName" column="j_jobNname"/>
             <result property="del" column="j_del"/>
         </association>
     </resultMap>
         
     <select id="findAll" resultMap="UserWithJobMap">
         select u.id u_id,
-               u.user_name as u_userName,
-               j.job_name as j_jobName,
-               u.email as u_email,
-               u.password as u_password,
-               u.del as u_del
+               u.user_name u_userName,
+               j.job_name j_jobName,
+               u.email u_email,
+               u.password u_password,
+               u.del u_del
         from users u left join job j on u.user_name=j.user_name
     </select>
 </mapper>
